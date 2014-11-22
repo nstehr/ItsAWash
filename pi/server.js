@@ -3,7 +3,7 @@
  */
 
 
-function PiServer()
+function SparkController()
 {
 	this.request = require('request');
 	this.pingSpark = function()
@@ -20,17 +20,9 @@ function PiServer()
 					}					
 				});
 	};
-	this.waterTapControl = function(on)
+	this.solenoidControl = function(dev,on)
 	{
-		var url='https://api.spark.io/v1/devices/53ff68066667574827222567/water-';
-		if(on)
-		{
-			url+='on';
-		}
-		else
-		{
-			url+='off';
-		}
+		var url='https://api.spark.io/v1/devices/53ff68066667574827222567/'+dev+'-'+(on?'on':'off');
 		var options=
 		{
 			url:url,
@@ -52,11 +44,63 @@ function PiServer()
 					if((!error)||(response.statusCode == 200))
 					{
 						console.log(body)
-					}										
+					}
+					else
+					{
+						console.log('error: '+error);
+						console.log(response.statusCode);
+					}
 				});
+	};
+	this.waterTapOn=function()
+	{
+		this.solenoidControl('water',true);
+	};
+	this.waterTapOff=function()
+	{
+		this.solenoidControl('water',false);
+	};
+	this.soapOn=function()
+	{
+		this.solenoidControl('soap',true);
+	};
+	this.soapOff=function()
+	{
+		this.solenoidControl('soap',false);
 	};
 }
 
-var pi=new PiServer();
-pi.pingSpark();
-pi.waterTapControl(true);
+function StateBase()
+{
+	this.onEnter=function() {};
+	this.onLeave=function() {};
+	this.onLightOn=function() {};
+	this.onLightOff=function() {};
+	this.onScaleOn=function() {};
+	this.onScaleOff=function() {};
+	this.onTimerExpire=function() {};
+}
+
+StateInitial=function()
+{
+}
+
+StateInitial.prototype=new StateBase();
+
+function StateMachine()
+{
+	this.start=function()
+	{
+	}
+	this.setState=function(state)
+	{
+		this.currentState.onLeave(this);
+		this.currentState=state;
+		this.currentState.onEnter(this);
+	}
+	this.currentState=new StateBase();
+	this.sparkController=new SparkController();
+}
+
+var server=new StateMachine();
+server.start();
