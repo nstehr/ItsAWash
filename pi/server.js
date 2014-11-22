@@ -2,7 +2,6 @@
  * 
  */
 
-
 function SparkController()
 {
 	this.request = require('request');
@@ -70,6 +69,10 @@ function SparkController()
 	};
 }
 
+function ClientEventSender()
+{
+}
+
 function StateBase()
 {
 	this.onEnter=function() {};
@@ -89,9 +92,6 @@ StateInitial.prototype=new StateBase();
 
 function StateMachine()
 {
-	this.start=function()
-	{
-	}
 	this.setState=function(state)
 	{
 		this.currentState.onLeave(this);
@@ -100,7 +100,46 @@ function StateMachine()
 	}
 	this.currentState=new StateBase();
 	this.sparkController=new SparkController();
+	this.clientEventSender=new ClientEventSender();
 }
 
-var server=new StateMachine();
+function Server()
+{
+	var self=this;
+	this.stateMachine=new StateMachine();
+	this.port=80;
+	this.start=function()
+	{
+		var express = require('express');
+		var app = express();
+		var server = require('http').createServer(app);
+		var io = require('socket.io')(server);
+		var port = this.port;
+
+		server.listen(port, function() {
+		    console.log('Server listening at port %d', port);
+		});
+		console.log(__dirname);
+		app.use(express.static(__dirname + '/www'));
+
+		io.on('connection', function(socket) {
+
+		    socket.on('msg-from-client', function(data) {
+		        // handle incoming message
+		        console.log("Receieved from client...", data);
+
+		        // send some data
+		        socket.emit('msg-from-server', {text: 12345});
+		    });
+
+		    socket.on('disconnect', function() {
+		        // handle disconnect
+		        console.log("Disconnected");
+		    });
+		});
+	}
+}
+
+var server=new Server();
+server.port=3003;
 server.start();
