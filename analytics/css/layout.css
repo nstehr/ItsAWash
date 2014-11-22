@@ -63,39 +63,33 @@ body {
 /*  ANIMATIONS */
 /*  ======================================== */
 @-keyframes pulse-green {
-    0% {background-color: #fff;}
-    70% {background-color: #5bc563;}
-    100% {background-color: #fff;}
+    0% {background-color: #fff; color: #333;}
+    100% {background-color: #5bc563;}
 }
 
 @-webkit-keyframes pulse-green {
-    0% {background-color: #fff;} 
-    70% {background-color: #5bc563;}
-    100% {background-color: #fff;}
+    0% {background-color: #fff; color: #333;}
+    100% {background-color: #5bc563;}
 }
 
 @-keyframes pulse-yellow {
     0% {background-color: #fff;} 
-    70% {background-color: #dde469; color: #fff;}
-    100% {background-color: #fff;}
+    100% {background-color: #dde469; color: #fff;}
 }
 
 @-webkit-keyframes pulse-yellow {
     0% {background-color: #fff;} 
-    70% {background-color: #dde469; color: #fff;}
-    100% {background-color: #fff;}
+     100% {background-color: #dde469; color: #fff;}
 }
 
 @-keyframes pulse-red {
     0% {background-color: #fff;} 
-    70% {background-color: #e47a69; color: #fff;}
-    100% {background-color: #fff;}
+    100% {background-color: #e47a69; color: #fff;}
 }
 
 @-webkit-keyframes pulse-red {
     0% {background-color: #fff;} 
-    70% {background-color: #e47a69; color: #fff;}
-    100% {background-color: #fff;}
+    100% {background-color: #e47a69; color: #fff;}
 }
 
 /*  TABLE */
@@ -128,24 +122,30 @@ tr:last-child td {
 }
 
 tr:first-child td {
-    color: #333;
+    background-color: #5bc563;
+    color: #fff;
     font-size: 30pt;
 
-    animation: pulse-green 2s infinite;
-    -webkit-animation: pulse-green 2s infinite;
+    animation: pulse-green 2s;
+    -webkit-animation: pulse-green 2s;
 }
 
 tr:first-child + tr td {
+    background-color: #dde469;
+    color: #fff;
     font-size: 20pt;
-    color: #666;
 
-    animation: pulse-yellow 2s infinite;
-    -webkit-animation: pulse-yellow 2s infinite;
+    animation: pulse-yellow 2s;
+    -webkit-animation: pulse-yellow 2s;
 }
 
-tr:last-child td {
-    animation: pulse-red 2s infinite;
-    -webkit-animation: pulse-red 2s infinite;
+tr:last-child td,
+tr:first-child + tr:last-child td {
+    background-color: #e47a69;
+    color: #fff;
+
+    animation: pulse-red 2s;
+    -webkit-animation: pulse-red 2s;
 }
 
 /* MOBILE PHONES */
