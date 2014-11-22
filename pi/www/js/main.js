@@ -1,9 +1,27 @@
 $(function() {
-    var socket = io();
+	var socket = io();
 
-    socket.on('msg-from-server', function(data) {
-        console.log("msg from server...", data);
-    });
+	var ServerMessages = [
+	['EnterWashroom', function(msg){
+	//TODO
+	}],
+	['Flush', function(msg){
+	//TODO
+	}],
+	['HandDetected', function(msg){
+	//TODO
+	}],
+	['CompletedWash', function(msg){
+	//TODO	
+	}],
+	['msg-from-server', function(msg){
+		console.log("msg from server...", data);
+	}]
+	]
 
-    socket.emit('msg-from-client', {test: "abcd"});
+	$.each(ServerMessages, function(tuple){
+		socket.on(tuple[0], tuple[1]);
+	})
+
+socket.emit('msg-from-client', {test: "abcd"});
 });
