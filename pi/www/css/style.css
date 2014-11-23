@@ -1,0 +1,193 @@
+body {
+    display: block;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#main {
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: #ddf0ff; /* Old browsers */
+    background: -moz-linear-gradient(top, #ddf0ff 0%, #ffffff 25%, #ffffff 75%, #dbebff 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ddf0ff), color-stop(25%,#ffffff), color-stop(75%,#ffffff), color-stop(100%,#dbebff)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #ddf0ff 0%,#ffffff 25%,#ffffff 75%,#dbebff 100%); /* Chrome10+,Safari5.1+ */
+}
+
+#squirrel {
+    position: absolute;
+    right: 30px;
+    bottom: 40px;
+    display: block;
+    height: 400px;
+    width: 400px;
+    background-repeat: no-repeat;
+    background-position: bottom left;
+}
+
+#squirrel.idle {
+    right: 0;
+    bottom: 0;
+    background-image: url('../assets/idle.png');
+}
+
+#squirrel.soap, #squirrel.scrub {
+    background-image: url('../assets/soap.png');
+}
+
+#squirrel.lather {
+    background-image: url('../assets/lather.png');
+}
+
+#squirrel.rinse, #squirrel.wet {
+    background-image: url('../assets/rinse.png');
+}
+
+#squirrel.dry {
+    background-image: url('../assets/dry.png');
+}
+
+#squirrel.greet {
+    background-image: url('../assets/waving.png');
+}
+
+#squirrel.attention {
+    background-image: url('../assets/attention.png');
+}
+
+
+#bubble {
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 24pt;
+    position: absolute;
+    bottom: 250px;
+    left: 50px;
+    padding: 50px 15px;
+    margin: 1em 0 3em;
+    border: 10px solid #3A6960;
+    text-align: left;
+    color: #3A6960;
+    background: #fff;
+    /* css3 */
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+
+#bubble .text {
+    margin: 0;
+    padding: 0 10px;
+}
+
+#bubble.idle {
+    right: 300px;
+}
+
+#bubble.soap {
+    right: 300px;
+    width: 600px;
+    left: auto;
+    text-align: left;
+}
+
+#bubble.lather {
+    right: 300px;
+    width: 600px;
+    left: auto;
+    text-align: left;
+}
+
+#bubble.rinse {
+    right: 300px;
+    width: 600px;
+    left: auto;
+    text-align: left;
+}
+
+#bubble.dry {
+    right: 300px;
+    width: 600px;
+    left: auto;
+    text-align: left;
+}
+
+#bubble.waving {
+    right: 300px;
+    width: 600px;
+    left: auto;
+    text-align: left;
+}
+
+#bubble.attention {
+    right: 300px;
+    width: 600px;
+    left: auto;
+    text-align: left;
+}
+
+#bubble:before {
+    content: "";
+    position: absolute;
+    z-index: 10;
+    bottom: -40px;
+    right: 50px;
+    width: 50px;
+    height: 30px;
+    border-style: solid;
+    border-width: 0 0 10px 10px;
+    border-color: #3A6960;
+    background: transparent;
+    /* css3 */
+    -webkit-border-bottom-left-radius: 80px 50px;
+    -moz-border-radius-bottomright: 80px 50px;
+    border-bottom-left-radius: 80px 50px;
+    /* reduce the damage in FF3.0 */
+    display: block;
+}
+
+#bubble:after {
+    content: "";
+    position: absolute;
+    z-index: 10;
+    bottom: -40px;
+    right: 50px;
+    width: 20px;
+    height: 30px;
+    border-style: solid;
+    border-width: 0 0 10px 10px;
+    border-color: #3A6960;
+    background: transparent;
+    /* css3 */
+    -webkit-border-bottom-left-radius: 40px 50px;
+    -moz-border-radius-bottomleft: 40px 50px;
+    border-bottom-left-radius: 40px 50px;
+    /* reduce the damage in FF3.0 */
+    display: block;
+}
+
+#bubble > :first-child:before {
+    content: "";
+    position: absolute;
+    bottom: -40px;
+    right: 45px;
+    width: 10px;
+    height: 10px;
+    background: #3A6960;
+    /* css3 */
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#bubble > :first-child:after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    right: 76px;
+    width: 24px;
+    height: 15px;
+    background: #fff;
+}
