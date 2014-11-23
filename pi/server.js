@@ -154,8 +154,8 @@ function StateBase()
 	this.onScaleOn=function() {};
 	this.onScaleOff=function() {};
 	this.onTimerExpire=function() {};
-	this.onTriggerSoapOn=function() {};
-	this.onTriggerSoapOff=function() {};
+	this.onSoapOn=function() {};
+	this.onSoapOff=function() {};
 }
 
 StateInitial=function()
@@ -181,11 +181,11 @@ StateInitial=function()
 	{
 		sm.broadcastToClients('EnterWashroom',{});
 	};
-	this.onTriggerSoapOn=function(sm)
+	this.onSoapOn=function(sm)
 	{
 		sm.sparkController.soapOn();
 	};
-	this.onTriggerSoapOff=function(sm)
+	this.onSoapOff=function(sm)
 	{
 		sm.sparkController.soapOff();
 	};
