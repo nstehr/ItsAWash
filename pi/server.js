@@ -5,8 +5,9 @@
 function SparkController()
 {
 	var self=this;
-	request = require('request');
+	var request = require('request');
 	var extend = require('xtend');
+	var http = require('http');
 	this.pingSpark = function()
 	{
 		var url='https://api.spark.io/v1/devices/53ff68066667574827222567\?access_token=1c19adfdfcf50419234b35586a8cbcd63d436f84';
@@ -173,6 +174,10 @@ StateInitial=function()
 	{
 		sm.broadcastToClients('Flush',{});
 	};
+	this.onScaleOn=function(sm)
+	{
+		sm.broadcastToClients('EnterWashroom',{});
+	}
 }
 
 StateInitial.prototype=new StateBase();
@@ -207,11 +212,13 @@ function Server()
 	var socketId=1;
 	this.stateMachine=new StateMachine();
 	this.port=80;
+	this.wiiPort=8088;
 	this.start=function()
 	{
 		var express = require('express');
 		var app = express();
 		var server = require('http').createServer(app);
+		var wii = require('http');
 		var io = require('socket.io')(server);
 		var port = this.port;
 
@@ -251,6 +258,28 @@ function Server()
 						break;
 					}
 				});
+		wii.createServer(
+				function(request,response)
+				{
+					if(request.url=='/on')
+					{
+						response.writeHeader(200, {"Content-Type": "text/plain"});
+						self.stateMachine.currentState.onScaleOn(self);
+						response.end();
+					}
+					else if(request.url=='/off')
+					{
+						response.writeHeader(200, {"Content-Type": "text/plain"});
+						self.stateMachine.currentState.onScaleOff(self);
+						response.end();						
+					}
+					else
+					{
+						response.writeHeader(404, {"Content-Type": "text/plain"});
+						response.write("404");
+						response.end();
+					}
+				}).listen(self.wiiPort);
 	}
 }
 
