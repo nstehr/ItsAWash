@@ -359,7 +359,7 @@ function StateMachine() {
 StateMachine.prototype = {
     run: function(state) {
         console.log("signal is " + this.signal)
-        if (this.signal == "HandDetected"){
+        if (this.signal == "HandDetected" || this.signal =="EnterWashroom"){
             this.current = state;
             this.states[this.current].start();
         }
