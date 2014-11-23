@@ -218,7 +218,6 @@ function Server()
 		server.listen(port, function() {
 		    console.log('Server listening at port %d', port);
 		});
-		console.log(__dirname);
 		app.use(express.static(__dirname + '/www'));
 
 		io.on('connection', function(socket) {
