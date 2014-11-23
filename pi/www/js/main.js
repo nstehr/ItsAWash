@@ -3,6 +3,7 @@ $(function() {
 
 	var ServerMessages = [
 	['EnterWashroom', function(msg){
+		console.log("enteredwashroom at main.js")
 		stateMachine.run('greet')
 	}],
 	['Flush', function(msg){

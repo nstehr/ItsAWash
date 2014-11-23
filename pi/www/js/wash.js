@@ -58,7 +58,7 @@ function Greet(wash) {
 Greet.prototype = Object.create(WashState.prototype, {
     start: {
         value: function() {
-            // say hello
+            console.log("greet at wash.js")
             squirrel.greet();
         }
     },
