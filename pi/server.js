@@ -163,12 +163,14 @@ StateInitial=function()
 		console.log('onLightOn');
 		sm.broadcastToClients('HandRemoved',{});
 		sm.sparkController.waterTapOff();
+		sm.sparkController.soapOff();
 	};
 	this.onLightOff=function(sm)
 	{
 		console.log('onLightOff');
 		sm.broadcastToClients('HandDetected',{});
 		sm.sparkController.waterTapOn();
+		sm.sparkController.soapOn();
 	};
 	this.onFlush=function(sm)
 	{
@@ -272,6 +274,30 @@ function Server()
 					{
 						response.writeHeader(200, {"Content-Type": "text/plain"});
 						self.stateMachine.currentState.onScaleOff(self.stateMachine);
+						response.end();						
+					}
+					else if(request.url=='/water-on')
+					{
+						response.writeHeader(200, {"Content-Type": "text/plain"});
+						self.stateMachine.sparkController.waterTapOn();
+						response.end();						
+					}
+					else if(request.url=='/water-off')
+					{
+						response.writeHeader(200, {"Content-Type": "text/plain"});
+						self.stateMachine.sparkController.waterTapOff();
+						response.end();						
+					}
+					else if(request.url=='/soap-on')
+					{
+						response.writeHeader(200, {"Content-Type": "text/plain"});
+						self.stateMachine.sparkController.soapOn();
+						response.end();						
+					}
+					else if(request.url=='/soap-off')
+					{
+						response.writeHeader(200, {"Content-Type": "text/plain"});
+						self.stateMachine.sparkController.soapOff();
 						response.end();						
 					}
 					else
