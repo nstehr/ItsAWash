@@ -39,11 +39,11 @@ body {
 }
 
 #squirrel.lather {
-    background-image: url('../assets/lather.png');
+    background-image: url('../assets/Lather.png');
 }
 
 #squirrel.rinse, #squirrel.wet {
-    background-image: url('../assets/rinse.png');
+    background-image: url('../assets/Rinse.png');
 }
 
 #squirrel.dry {
@@ -55,7 +55,7 @@ body {
 }
 
 #squirrel.attention {
-    background-image: url('../assets/attention.png');
+    background-image: url('../assets/Attention.png');
 }
 
 
