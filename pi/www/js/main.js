@@ -4,7 +4,7 @@ $(function() {
 	var ServerMessages = [
 	['EnterWashroom', function(msg){
 		console.log("enteredwashroom at main.js")
-		this.signal = "EnterWashroom"
+		stateMachine.signal = "EnterWashroom"
 		stateMachine.run('greet')
 
 	}],
