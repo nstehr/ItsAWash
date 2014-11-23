@@ -9,9 +9,17 @@ $(function() {
 		stateMachine.run('prompt')
 	}],
 	['HandDetected', function(msg){
-		stateMachine.run('wethands')
+		console.log("HandDetected")
+		stateMachine.signal = "HandDetected"
+		if (stateMachine.current =='idle'){
+			stateMachine.run('wethands')
+		}else{
+			stateMachine.run(stateMachine.current);
+		}
 	}],
 	['HandRemoved', function(msg){
+		console.log("HandRemoved")
+		stateMachine.signal = "HandRemoved"
 		stateMachine.interruptState();
 	}],
 	]

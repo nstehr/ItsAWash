@@ -111,9 +111,8 @@ function WetHands(wash) {
 WetHands.prototype = Object.create(WashState.prototype, {
     start: {
         value: function() {
-            if (stateMachine.current == "wethands"){
-                return;
-            }
+            console.log("currentTime is " + this.currentTime +"current is " + stateMachine.current)
+            if (this.currentTime > this.ts && (stateMachine.current != 'wethands' || stateMachine.current != "idle") ) {return ;}
             console.log("wethands started");
             this.timeout();
         }
@@ -122,15 +121,16 @@ WetHands.prototype = Object.create(WashState.prototype, {
         value: function() {
             console.log("wethands ended");
             this.currentTime = 0;
-            stateMachine.run('latherhands')
+            if (stateMachine.current == "wethands"){
+                stateMachine.run('latherhands')
+            }
         }
     },
     pause: {
         //This should only be triggered by HandsRemoved
         value: function() {
-            if (this.currentTime < this.ts){ //The task was not finished
-                clearInterval(this.timeoutAction);
-            }else{
+    clearInterval(this.IntervalId)
+            if (this.currentTime >= this.ts){ //The task was not finished
                 this.end();
             }
         }
@@ -159,15 +159,16 @@ LatherHands.prototype = Object.create(WashState.prototype, {
         value: function() {
             console.log("latherhands ended");
             this.currentTime = 0;
-            stateMachine.run('scrubhands')
+            if (stateMachine.current == "latherhands"){
+                stateMachine.run('scrubhands')
+            }
         }
     },
     pause: {
         //This should only be triggered by HandsRemoved
         value: function() {
-            if (this.currentTime < this.ts){ //The task was not finished
-                clearInterval(this.timeoutAction);
-            }else{
+            clearInterval(this.IntervalId)
+            if (this.currentTime >= this.ts){ //The task was not finished
                 this.end();
             }
         }
@@ -193,7 +194,7 @@ ScrubHands.prototype = Object.create(WashState.prototype, {
     },
     end: {
         value: function() {
-            console.log("scrubhands started");
+            console.log("scrubhands ended");
             this.currentTime = 0;
             stateMachine.run('idle')
         }
@@ -201,9 +202,8 @@ ScrubHands.prototype = Object.create(WashState.prototype, {
     pause: {
         //This should only be triggered by HandsRemoved
         value: function() {
-            if (this.currentTime < this.ts){ //The task was not finished
-                clearInterval(this.timeoutAction);
-            }else{
+            clearInterval(this.IntervalId)
+            if (this.currentTime >= this.ts){ 
                 this.end();
             }
         }
@@ -226,11 +226,15 @@ function StateMachine() {
         scrubhands: new ScrubHands(this)
     };
     this.current = 'idle';
+    this.signal = ""
 }
 StateMachine.prototype = {
     run: function(state) {
-        this.current = state;
-        this.states[this.current].start();
+        console.log("signal is " + this.signal)
+        if (this.signal == "HandDetected"){
+            this.current = state;
+            this.states[this.current].start();
+        }
     },
     interruptState: function(){
         this.states[this.current].pause();
