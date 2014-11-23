@@ -51,7 +51,7 @@
                 },
 
                 greet: function() {
-                    setClass('waving');
+                    setClass('greet');
                     setText(text.hello);
                 },
 
@@ -61,7 +61,7 @@
                 },
 
                 wet: function() {
-                    setClass('rinse');
+                    setClass('wet');
                     setText(text.wet);
                 },
 
@@ -71,7 +71,7 @@
                 },
                 
                 scrub: function() {
-                    setClass('soap');
+                    setClass('scrub');
                     setText(text.scrub);
                 },
 
@@ -100,8 +100,8 @@
             setInterval(function() {
                 states[sk[kx++]]();
                 if (kx === kl) kx = 0;
-            }, 3000);
-            
+            }, 2000);
+            states.idle();
             
             return states;
         }
