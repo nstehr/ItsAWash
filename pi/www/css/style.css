@@ -25,7 +25,7 @@ body {
     right: 80px;
     bottom: 30px;
     display: block;
-    height: 400px;
+    height: 100%;
     width: 400px;
     background-repeat: no-repeat;
     background-position: bottom right;

@@ -94,15 +94,7 @@
                 }
             };
             
-            var sk = Object.keys(states);
-            var kl = sk.length;
-            var kx = 0;
-            setInterval(function() {
-                states[sk[kx++]]();
-                if (kx === kl) kx = 0;
-            }, 2000);
             states.idle();
-            
             return states;
         }
 

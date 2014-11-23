@@ -28,6 +28,7 @@ function Idle(wash) {
 Idle.prototype = Object.create(WashState.prototype, {
     start: {
         value: function() {
+            squirrel.idle();
         }
     },
     end: {
@@ -58,6 +59,7 @@ Greet.prototype = Object.create(WashState.prototype, {
     start: {
         value: function() {
             // say hello
+            squirrel.greet();
         }
     },
     end: {
@@ -85,6 +87,7 @@ Prompt.prototype = Object.create(WashState.prototype, {
     start: {
         value: function() {
             // ask to wash hands
+            squirrel.attention();
         }
     },
     end: {
@@ -111,6 +114,7 @@ function WetHands(wash) {
 WetHands.prototype = Object.create(WashState.prototype, {
     start: {
         value: function() {
+            squirrel.wet();
             console.log("currentTime is " + this.currentTime +"current is " + stateMachine.current)
             if (this.currentTime > this.ts && (stateMachine.current != 'wethands' || stateMachine.current != "idle") ) {return ;}
             console.log("wethands started");
@@ -151,6 +155,7 @@ function LatherHands(wash) {
 LatherHands.prototype = Object.create(WashState.prototype, {
   start: {
         value: function() {
+            squirrel.lather();
             console.log("latherhands started");
             this.timeout();
         }
@@ -188,6 +193,7 @@ function ScrubHands(wash) {
 ScrubHands.prototype = Object.create(WashState.prototype, {
  start: {
         value: function() {
+            squirrel.scrub();
             console.log("scrubhands started");
             this.timeout();
         }
