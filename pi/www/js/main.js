@@ -1,6 +1,5 @@
 $(function() {
 	var socket = io();
-	var stateMachine = new StateMachine();
 
 	var ServerMessages = [
 	['EnterWashroom', function(msg){
@@ -14,9 +13,6 @@ $(function() {
 	}],
 	['HandRemoved', function(msg){
 		stateMachine.interruptState();
-	}],
-	['msg-from-server', function(msg){
-		stateMachine.run('wethands');
 	}],
 	]
 

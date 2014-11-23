@@ -7,14 +7,14 @@ WashState.prototype = {
     start: function() {},
     end: function() {},
     pause: function() {},
-    timeout: function(){setInterval(this.timeoutAction.bind(this), 1000)},
+    timeout: function(){this.IntervalId = setInterval(this.timeoutAction.bind(this), 1000)},
     timeoutAction:  function(){ 
         if (this.currentTime >= this.ts) 
         {
-            clearInterval(this.timeoutAction);
+            clearInterval(this.IntervalId);
             this.end();
         }else{
-            console.log(this.currentTime + " " + this);
+            console.log(this);
             this.currentTime = this.currentTime + 1000
         }
     }
@@ -121,8 +121,7 @@ WetHands.prototype = Object.create(WashState.prototype, {
         value: function() {
             console.log("wethands ended");
             this.currentTime = 0;
-            console.log(this.wash.states.latherhands)
-            this.wash.run(this.wash.states.latherhands)
+            stateMachine.run('latherhands')
         }
     },
     pause: {
@@ -159,7 +158,7 @@ LatherHands.prototype = Object.create(WashState.prototype, {
         value: function() {
             console.log("latherhands ended");
             this.currentTime = 0;
-            stateMachine.run(stateMachine.states.scrubhands)
+            stateMachine.run('scrubhands')
         }
     },
     pause: {
@@ -195,7 +194,7 @@ ScrubHands.prototype = Object.create(WashState.prototype, {
         value: function() {
             console.log("scrubhands started");
             this.currentTime = 0;
-            stateMachine.run(stateMachine.states.idle)
+            stateMachine.run('idle')
         }
     },
     pause: {
