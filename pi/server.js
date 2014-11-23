@@ -159,11 +159,19 @@ StateInitial=function()
 {
 	this.onLightOn=function(sm)
 	{
-		sm.sparkController.soapOn();
+		console.log('onLightOn');
+		sm.broadcastToClients('HandRemoved',{});
+		sm.sparkController.waterTapOff();
 	};
 	this.onLightOff=function(sm)
 	{
-		sm.sparkController.soapOff();
+		console.log('onLightOff');
+		sm.broadcastToClients('HandDetected',{});
+		sm.sparkController.waterTapOn();
+	};
+	this.onFlush=function(sm)
+	{
+		sm.broadcastToClients('Flush',{});
 	};
 }
 
@@ -182,12 +190,13 @@ function StateMachine()
 	this.sparkController=new SparkController();
 	this.clientEventSender=new ClientEventSender();
 	this.socket=[];
-	this.broadcastToClients=function(data)
+	this.broadcastToClients=function(eventName,data)
 	{
+		console.log(self.socket.length);
 		self.socket.forEach(
 				function(s)
 				{
-					s.emit('msg-from-server', data);
+					s.emit(eventName, data);
 				});
 	}
 }
@@ -218,15 +227,13 @@ function Server()
 		        // handle incoming message
 		        console.log("Receieved from client...", data);
 		        socket._machack_id=socketId++;
-		        self.stateMachine[socket._machack_id]=socket;
-		        // send some data
-		        //socket.emit('msg-from-server', {text: 12345});
+		        self.stateMachine.socket[socket._machack_id]=socket;
 		    });
 
 		    socket.on('disconnect', function() {
 		        // handle disconnect
 		        console.log("Disconnected");
-		        delete self.stateMachine[socket._machack_id];
+		        delete self.stateMachine.socket[socket._machack_id];
 		    });
 		});
 		self.stateMachine.sparkController.onTrigger(
@@ -249,7 +256,5 @@ function Server()
 }
 
 var server=new Server();
-//server.stateMachine.sparkController.waterTapOff();
-//server.stateMachine.sparkController.soapOff();
 server.port=3003;
 server.start();
