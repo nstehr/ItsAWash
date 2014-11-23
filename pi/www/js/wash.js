@@ -28,8 +28,6 @@ function Idle(wash) {
 Idle.prototype = Object.create(WashState.prototype, {
     start: {
         value: function() {
-            console.log("lolz");
-           $("#image_div").append("<img height='300px' width='300px' src='assets/IdleState.png'/>");
         }
     },
     end: {
@@ -113,6 +111,9 @@ function WetHands(wash) {
 WetHands.prototype = Object.create(WashState.prototype, {
     start: {
         value: function() {
+            if (stateMachine.current == "wethands"){
+                return;
+            }
             console.log("wethands started");
             this.timeout();
         }
