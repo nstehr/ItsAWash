@@ -240,20 +240,20 @@ function Server()
 
 		io.on('connection', function(socket) {
 
-		    socket.on('msg-from-client', function(data) {
-		        // handle incoming message
-		        console.log("Receieved from client...", data);
-		        socket._machack_id=socketId++;
-		        self.stateMachine.socket[socket._machack_id]=socket;
-		        if(data.event=="SoapOn")
-		        {
-		        	self.stateMachine.currentState.onSoapOn(self.stateMachine);
-		        }
-		        else if(data.event=="SoapOff")
-		        {
-		        	self.stateMachine.currentState.onSoapOff(self.stateMachine);
-		        }
-		    });
+	        socket._machack_id=socketId++;
+	        self.stateMachine.socket[socket._machack_id]=socket;
+		    socket.on('soap', function(data)
+		    		{
+		    			console.log(data.toString());
+				        if(data.event=="SoapOn")
+				        {
+				        	self.stateMachine.currentState.onSoapOn(self.stateMachine);
+				        }
+				        else if(data.event=="SoapOff")
+				        {
+				        	self.stateMachine.currentState.onSoapOff(self.stateMachine);
+				        }		    	
+		    		});
 
 		    socket.on('disconnect', function() {
 		        // handle disconnect
