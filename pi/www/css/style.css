@@ -4,28 +4,31 @@ body {
     margin: 0;
     height: 100%;
     width: 100%;
+    background: black;
 }
 
 #main {
     position: absolute;
+    left: 50%;
+    margin-left: -500px;
     display: block;
     height: 100%;
-    width: 100%;
-    background: #ddf0ff; /* Old browsers */
-    background: -moz-linear-gradient(top, #ddf0ff 0%, #ffffff 25%, #ffffff 75%, #dbebff 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ddf0ff), color-stop(25%,#ffffff), color-stop(75%,#ffffff), color-stop(100%,#dbebff)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #ddf0ff 0%,#ffffff 25%,#ffffff 75%,#dbebff 100%); /* Chrome10+,Safari5.1+ */
+    width: 1080px;
+    background: #ddf0ff;
+    background: -moz-linear-gradient(top, #ddf0ff 0%, #ffffff 25%, #ffffff 75%, #dbebff 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ddf0ff), color-stop(25%,#ffffff), color-stop(75%,#ffffff), color-stop(100%,#dbebff));
+    background: -webkit-linear-gradient(top, #ddf0ff 0%,#ffffff 25%,#ffffff 75%,#dbebff 100%);
 }
 
 #squirrel {
     position: absolute;
-    right: 30px;
-    bottom: 40px;
+    right: 80px;
+    bottom: 30px;
     display: block;
     height: 400px;
     width: 400px;
     background-repeat: no-repeat;
-    background-position: bottom left;
+    background-position: bottom right;
 }
 
 #squirrel.idle {
@@ -39,11 +42,11 @@ body {
 }
 
 #squirrel.lather {
-    background-image: url('../assets/lather.png');
+    background-image: url('../assets/Lather.png');
 }
 
 #squirrel.rinse, #squirrel.wet {
-    background-image: url('../assets/rinse.png');
+    background-image: url('../assets/Rinse.png');
 }
 
 #squirrel.dry {
@@ -55,7 +58,7 @@ body {
 }
 
 #squirrel.attention {
-    background-image: url('../assets/attention.png');
+    background-image: url('../assets/Attention.png');
 }
 
 
@@ -86,7 +89,7 @@ body {
     right: 300px;
 }
 
-#bubble.soap {
+#bubble.soap, #bubble.scrub {
     right: 300px;
     width: 600px;
     left: auto;
@@ -100,7 +103,7 @@ body {
     text-align: left;
 }
 
-#bubble.rinse {
+#bubble.rinse, #bubble.wet {
     right: 300px;
     width: 600px;
     left: auto;
@@ -114,7 +117,7 @@ body {
     text-align: left;
 }
 
-#bubble.waving {
+#bubble.greet {
     right: 300px;
     width: 600px;
     left: auto;
