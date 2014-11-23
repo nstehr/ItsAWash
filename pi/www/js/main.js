@@ -1,25 +1,26 @@
 $(function() {
 	var socket = io();
+	var stateMachine = new StateMachine();
 
 	var ServerMessages = [
 	['EnterWashroom', function(msg){
-	//TODO
+		stateMachine.run('greet')
 	}],
 	['Flush', function(msg){
-	//TODO
+		stateMachine.run('prompt')
 	}],
 	['HandDetected', function(msg){
-	//TODO
+		stateMachine.run('wethands')
 	}],
 	['HandRemoved', function(msg){
-	//TODO
-	}]
+		stateMachine.interruptState();
+	}],
 	['msg-from-server', function(msg){
-		console.log("msg from server...", data);
-	}]
+		stateMachine.run('idle');
+	}],
 	]
 
-	$.each(ServerMessages, function(tuple){
+	$.each(ServerMessages, function(index, tuple){
 		socket.on(tuple[0], tuple[1]);
 	})
 
