@@ -26,7 +26,7 @@ function Idle(wash) {
 Idle.prototype = Object.create(WashState.prototype, {
     start: {
         value: function() {
-            // get facts
+           console.log("started Idle mode");
         }
     },
     end: {
@@ -208,7 +208,7 @@ ScrubHands.prototype = Object.create(WashState.prototype, {
 });
 
 
-function Wash(wash) {
+function StateMachine() {
     this.states = {
         idle: new Idle(this),
         greet: new Greet(this),
@@ -218,7 +218,7 @@ function Wash(wash) {
     };
     this.current = 'idle';
 }
-Wash.prototype = {
+StateMachine.prototype = {
     run: function(state) {
         this.current = state;
         this.states[this.current].start();
