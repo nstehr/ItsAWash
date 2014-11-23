@@ -154,6 +154,8 @@ function StateBase()
 	this.onScaleOn=function() {};
 	this.onScaleOff=function() {};
 	this.onTimerExpire=function() {};
+	this.onTriggerSoapOn=function() {};
+	this.onTriggerSoapOff=function() {};
 }
 
 StateInitial=function()
@@ -170,7 +172,6 @@ StateInitial=function()
 		console.log('onLightOff');
 		sm.broadcastToClients('HandDetected',{});
 		sm.sparkController.waterTapOn();
-		sm.sparkController.soapOn();
 	};
 	this.onFlush=function(sm)
 	{
@@ -179,7 +180,15 @@ StateInitial=function()
 	this.onScaleOn=function(sm)
 	{
 		sm.broadcastToClients('EnterWashroom',{});
-	}
+	};
+	this.onTriggerSoapOn=function(sm)
+	{
+		sm.sparkController.soapOn();
+	};
+	this.onTriggerSoapOff=function(sm)
+	{
+		sm.sparkController.soapOff();
+	};
 }
 
 StateInitial.prototype=new StateBase();
@@ -236,6 +245,14 @@ function Server()
 		        console.log("Receieved from client...", data);
 		        socket._machack_id=socketId++;
 		        self.stateMachine.socket[socket._machack_id]=socket;
+		        if(data.event=="SoapOn")
+		        {
+		        	self.stateMachine.currentState.onSoapOn(self.stateMachine);
+		        }
+		        else if(data.event=="SoapOff")
+		        {
+		        	self.stateMachine.currentState.onSoapOff(self.stateMachine);
+		        }
 		    });
 
 		    socket.on('disconnect', function() {
