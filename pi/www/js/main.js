@@ -16,7 +16,7 @@ $(function() {
 		stateMachine.interruptState();
 	}],
 	['msg-from-server', function(msg){
-		stateMachine.run('idle');
+		stateMachine.run('wethands');
 	}],
 	]
 

@@ -1,18 +1,20 @@
 function WashState(wash) {
     this.wash = wash;
-    this.ts = 1000;
+    this.ts = 3000;
     this.currentTime=0; // some arbitrary timeout for now
 }
 WashState.prototype = {
     start: function() {},
     end: function() {},
     pause: function() {},
-    timeout: function(){setInterval(this.timeoutAction, 1000)},
+    timeout: function(){setInterval(this.timeoutAction.bind(this), 1000)},
     timeoutAction:  function(){ 
         if (this.currentTime >= this.ts) 
         {
+            clearInterval(this.timeoutAction);
             this.end();
         }else{
+            console.log(this.currentTime + " " + this);
             this.currentTime = this.currentTime + 1000
         }
     }
@@ -26,7 +28,8 @@ function Idle(wash) {
 Idle.prototype = Object.create(WashState.prototype, {
     start: {
         value: function() {
-           console.log("started Idle mode");
+            console.log("lolz");
+           $("#image_div").append("<img height='300px' width='300px' src='assets/IdleState.png'/>");
         }
     },
     end: {
@@ -110,14 +113,16 @@ function WetHands(wash) {
 WetHands.prototype = Object.create(WashState.prototype, {
     start: {
         value: function() {
-            //Show Animation here
+            console.log("wethands started");
             this.timeout();
         }
     },
     end: {
         value: function() {
+            console.log("wethands ended");
             this.currentTime = 0;
-            Wash.run(Wash.states.LatherHands)
+            console.log(this.wash.states.latherhands)
+            this.wash.run(this.wash.states.latherhands)
         }
     },
     pause: {
@@ -146,14 +151,15 @@ function LatherHands(wash) {
 LatherHands.prototype = Object.create(WashState.prototype, {
   start: {
         value: function() {
-            //Show Animation here
+            console.log("latherhands started");
             this.timeout();
         }
     },
     end: {
         value: function() {
+            console.log("latherhands ended");
             this.currentTime = 0;
-            Wash.run(Wash.states.ScrubHands)
+            stateMachine.run(stateMachine.states.scrubhands)
         }
     },
     pause: {
@@ -173,21 +179,23 @@ LatherHands.prototype = Object.create(WashState.prototype, {
     }
 });
 
-//Triggered by timeout on 
+//Triggered by timeout on lather
 function ScrubHands(wash) {
+    this.ts = 2000;
     WashState.call(this, wash);
 }
 ScrubHands.prototype = Object.create(WashState.prototype, {
  start: {
         value: function() {
-            //Show Animation here
+            console.log("scrubhands started");
             this.timeout();
         }
     },
     end: {
         value: function() {
+            console.log("scrubhands started");
             this.currentTime = 0;
-            Wash.run(Wash.states.idle)
+            stateMachine.run(stateMachine.states.idle)
         }
     },
     pause: {
@@ -214,7 +222,8 @@ function StateMachine() {
         greet: new Greet(this),
         wethands: new WetHands(this),
         prompt: new Prompt(this),
-        latherhands: new LatherHands(this)
+        latherhands: new LatherHands(this),
+        scrubhands: new ScrubHands(this)
     };
     this.current = 'idle';
 }
@@ -227,4 +236,6 @@ StateMachine.prototype = {
         this.states[this.current].pause();
     }
 };
+
+stateMachine = new StateMachine();
 
