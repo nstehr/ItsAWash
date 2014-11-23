@@ -11,9 +11,9 @@ $(function() {
 	['HandDetected', function(msg){
 	//TODO
 	}],
-	['CompletedWash', function(msg){
-	//TODO	
-	}],
+	['HandRemoved', function(msg){
+	//TODO
+	}]
 	['msg-from-server', function(msg){
 		console.log("msg from server...", data);
 	}]
