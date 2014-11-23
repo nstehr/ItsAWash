@@ -34,7 +34,7 @@ body {
     background-image: url('../assets/idle.png');
 }
 
-#squirrel.soap {
+#squirrel.soap, #squirrel.scrub {
     background-image: url('../assets/soap.png');
 }
 
@@ -42,7 +42,7 @@ body {
     background-image: url('../assets/lather.png');
 }
 
-#squirrel.rinse {
+#squirrel.rinse, #squirrel.wet {
     background-image: url('../assets/rinse.png');
 }
 
@@ -50,7 +50,7 @@ body {
     background-image: url('../assets/dry.png');
 }
 
-#squirrel.waving {
+#squirrel.greet {
     background-image: url('../assets/waving.png');
 }
 

@@ -44,7 +44,7 @@
                 $t.text(txt);
             }
 
-            return {
+            var states = {
                 idle: function() {
                     setClass('idle');
                     setText(facts[Math.floor(Math.random()*factsLength)]);
@@ -93,6 +93,17 @@
                 pause: function() {
                 }
             };
+            
+            var sk = Object.keys(states);
+            var kl = sk.length;
+            var kx = 0;
+            setInterval(function() {
+                states[sk[kx++]]();
+                if (kx === kl) kx = 0;
+            }, 3000);
+            
+            
+            return states;
         }
 
         g.squirrel = new Squirrel();
