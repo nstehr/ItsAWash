@@ -264,13 +264,14 @@ function Server()
 					if(request.url=='/on')
 					{
 						response.writeHeader(200, {"Content-Type": "text/plain"});
+						console.log('onScale');
 						self.stateMachine.currentState.onScaleOn(self);
 						response.end();
 					}
 					else if(request.url=='/off')
 					{
 						response.writeHeader(200, {"Content-Type": "text/plain"});
-						self.stateMachine.currentState.onScaleOff(self);
+						self.stateMachine.currentState.onScaleOff(self.stateMachine);
 						response.end();						
 					}
 					else
