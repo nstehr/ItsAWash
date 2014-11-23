@@ -92,7 +92,7 @@ function SparkController()
 					obj = extend(obj, JSON.parse(line));
 				}
 			}
-			e();
+			e(obj.name);
 		};
 		var appendToQueue = function(arr)
 		{
@@ -129,15 +129,13 @@ function SparkController()
 	};
 	this.soapOn=function()
 	{
+		console.log('soap on');
 		self.solenoidControl('soap',true);
 	};
 	this.soapOff=function()
 	{
+		console.log('soap off');
 		self.solenoidControl('soap',false);
-	};
-	this.onFlush=function(e)
-	{
-		self.onTrigger(e);
 	};
 }
 
@@ -159,6 +157,14 @@ function StateBase()
 
 StateInitial=function()
 {
+	this.onLightOn=function(sm)
+	{
+		sm.sparkController.soapOn();
+	};
+	this.onLightOff=function(sm)
+	{
+		sm.sparkController.soapOff();
+	};
 }
 
 StateInitial.prototype=new StateBase();
@@ -172,7 +178,7 @@ function StateMachine()
 		this.currentState=state;
 		this.currentState.onEnter(this);
 	}
-	this.currentState=new StateBase();
+	this.currentState=new StateInitial();
 	this.sparkController=new SparkController();
 	this.clientEventSender=new ClientEventSender();
 	this.socket=[];
@@ -223,11 +229,21 @@ function Server()
 		        delete self.stateMachine[socket._machack_id];
 		    });
 		});
-		self.stateMachine.sparkController.onFlush(
-				function()
+		self.stateMachine.sparkController.onTrigger(
+				function(e)
 				{
-					console.log('Flush!');
-					self.stateMachine.currentState.onFlush();
+					switch(e)
+					{
+					case "flushed":
+						self.stateMachine.currentState.onFlush(self.stateMachine);
+						break;
+					case "light-on":
+						self.stateMachine.currentState.onLightOn(self.stateMachine);
+						break;
+					case "light-off":
+						self.stateMachine.currentState.onLightOff(self.stateMachine);
+						break;
+					}
 				});
 	}
 }
