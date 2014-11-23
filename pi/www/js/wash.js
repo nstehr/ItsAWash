@@ -191,7 +191,7 @@ function ScrubHands(wash) {
     WashState.call(this, wash);
 }
 ScrubHands.prototype = Object.create(WashState.prototype, {
- start: {
+  start: {
         value: function() {
             squirrel.scrub();
             console.log("scrubhands started");
@@ -200,16 +200,18 @@ ScrubHands.prototype = Object.create(WashState.prototype, {
     },
     end: {
         value: function() {
-            console.log("scrubhands ended");
+            console.log("srcubhands ended");
             this.currentTime = 0;
-            stateMachine.run('idle')
+            if (stateMachine.current == "scrubhands"){
+                stateMachine.run('rinse')
+            }
         }
     },
     pause: {
         //This should only be triggered by HandsRemoved
         value: function() {
             clearInterval(this.IntervalId)
-            if (this.currentTime >= this.ts){ 
+            if (this.currentTime >= this.ts){ //The task was not finished
                 this.end();
             }
         }
@@ -222,6 +224,123 @@ ScrubHands.prototype = Object.create(WashState.prototype, {
 });
 
 
+//Triggered by timeout on lather
+function RinseHands(wash) {
+    this.ts = 2000;
+    WashState.call(this, wash);
+}
+RinseHands.prototype = Object.create(WashState.prototype, {
+  start: {
+        value: function() {
+            squirrel.rinse();
+            console.log("rinsehands started");
+            this.timeout();
+        }
+    },
+    end: {
+        value: function() {
+            console.log("rinseands ended");
+            this.currentTime = 0;
+            if (stateMachine.current == "rinsehands"){
+                stateMachine.run('dry')
+            }
+        }
+    },
+    pause: {
+        //This should only be triggered by HandsRemoved
+        value: function() {
+            clearInterval(this.IntervalId)
+            if (this.currentTime >= this.ts){ //The task was not finished
+                this.end();
+            }
+        }
+    },
+   timeout: {
+        value: function() {
+            WashState.prototype.timeout.call(this)
+        }
+    }
+});
+
+
+//Triggered by timeout on lather
+function DryHands(wash) {
+    this.ts = 2000;
+    WashState.call(this, wash);
+}
+DryHands.prototype = Object.create(WashState.prototype, {
+  start: {
+        value: function() {
+            squirrel.dry();
+            console.log("dryhands started");
+            this.timeout();
+        }
+    },
+    end: {
+        value: function() {
+            console.log("rdryands ended");
+            this.currentTime = 0;
+            if (stateMachine.current == "dryhands"){
+                stateMachine.run('thanks')
+            }
+        }
+    },
+    pause: {
+        //This should only be triggered by HandsRemoved
+        value: function() {
+            clearInterval(this.IntervalId)
+            if (this.currentTime >= this.ts){ //The task was not finished
+                this.end();
+            }
+        }
+    },
+   timeout: {
+        value: function() {
+            WashState.prototype.timeout.call(this)
+        }
+    }
+});
+
+//Triggered by timeout on lather
+function Thanks(wash) {
+    this.ts = 2000;
+    WashState.call(this, wash);
+}
+Thanks.prototype = Object.create(WashState.prototype, {
+  start: {
+        value: function() {
+            squirrel.dry();
+            console.log("thakns started");
+            this.timeout();
+        }
+    },
+    end: {
+        value: function() {
+            console.log("thanks ended");
+            this.currentTime = 0;
+            if (stateMachine.current == "thanks"){
+                stateMachine.run('idle')
+            }
+        }
+    },
+    pause: {
+        //This should only be triggered by HandsRemoved
+        value: function() {
+            clearInterval(this.IntervalId)
+            if (this.currentTime >= this.ts){ //The task was not finished
+                this.end();
+            }
+        }
+    },
+   timeout: {
+        value: function() {
+            WashState.prototype.timeout.call(this)
+        }
+    }
+});
+
+
+
 function StateMachine() {
     this.states = {
         idle: new Idle(this),
@@ -229,7 +348,10 @@ function StateMachine() {
         wethands: new WetHands(this),
         prompt: new Prompt(this),
         latherhands: new LatherHands(this),
-        scrubhands: new ScrubHands(this)
+        scrubhands: new ScrubHands(this),
+        rinsehands: new RinseHands(this),
+        dryhands: new DryHands(this),
+        thanks: new Thanks(this)
     };
     this.current = 'idle';
     this.signal = ""
