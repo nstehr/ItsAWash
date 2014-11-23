@@ -265,7 +265,7 @@ function Server()
 					{
 						response.writeHeader(200, {"Content-Type": "text/plain"});
 						console.log('onScale');
-						self.stateMachine.currentState.onScaleOn(self);
+						self.stateMachine.currentState.onScaleOn(self.stateMachine);
 						response.end();
 					}
 					else if(request.url=='/off')
